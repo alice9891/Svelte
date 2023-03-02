@@ -1,30 +1,45 @@
 <script>
-	export let name;
+	import TodoHeader from './components/TodoHeader.svelte';
+	import TodoInfo from './components/TodoInfo.svelte';
+	import TodoList from './components/TodoList.svelte';
+
+	import {v4 as uuid} from 'uuid';
+
+	let todos = [
+		{
+			id :uuid(),
+			content: "첫 번째 할 일",
+			done: false
+		},
+		{
+			id :uuid(),
+			content: "두 번째 할 일",
+			done: false
+		},
+		{
+			id :uuid(),
+			content: "세 번째 할 일",
+			done: true
+		},
+		{
+			id :uuid(),
+			content: "네 번째 할 일",
+			done: false
+		},
+	]
+
+	let handleCheckTodo = (id) => {
+		todos = todos.map(todo => {
+			if(todo.id === id) { // 선택된 todo 값 찾기
+				todo.done = !todo.done; // 선택된 todo의 done 상태 변경
+			}
+			return todo;
+		})
+	}
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+<div class="app">
+	<TodoHeader />
+	<TodoInfo />
+	<TodoList {todos} {handleCheckTodo}/> <!--handleCheckTodo Props로 넘김-->
+</div>
